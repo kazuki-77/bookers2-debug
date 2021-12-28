@@ -35,7 +35,6 @@ before_action :correct_user, only: [:edit, :update]
   end
 
 
-
   def update
     @book = Book.find(params[:id])
     if @book.update(book_params)
