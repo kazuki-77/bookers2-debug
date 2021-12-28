@@ -5,12 +5,15 @@ before_action :correct_user, only: [:edit, :update]
     @book = Book.new
     @user =@books.user
     @book_comment = BookComment.new
+    @followers = User.where.not(id: current_user.id)
   end
 
   def index
     @books = Book.all
     @book = Book.new
     @user = current_user
+    @followers = User.where.not(id: current_user.id)
+
   end
 
   def create
