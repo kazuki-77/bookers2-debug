@@ -19,7 +19,22 @@ class User < ApplicationRecord
   validates :name, length: {maximum: 20, minimum: 2}, uniqueness: true
   validates :introduction, length: { maximum: 50}
 
-  def is_followed_by?(user)
+  def is_followed_by?(user) #あるユーザーがあるユーザ（引数に渡されたユーザー）にフォローされているか否かを判断するメソッド
     reverse_of_relationships.find_by(follower_id: user.id).present?
   end
+
+  def self.search(search,word)
+    if search == "forward_match"
+      @user = User.where("name LIKE?", "#{word}%")
+    elsif search == "backward_match"
+      @user = User.where("name LIKE?", "%#{word}")
+    elsif search == "perfect_match"
+      @user = User.where("name LIKE?", "#{word}")
+    elsif search == "partial_match"
+      @user = User.where("name LIKE?", "%#{word}%")
+    else
+      @user = User.all
+    end
+  end
+
 end
