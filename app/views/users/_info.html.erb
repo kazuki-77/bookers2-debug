@@ -12,15 +12,23 @@
       <!-- マイページ以外にフォロー数・フォロワー数を表示 -->
       <tr>
         <th>follows</th>
-        <th></th>
+        <th><%= link_to user.followers.count, followers_user_path(user)%></th>
       </tr>
       <tr>
-        <th>ここにfollowers</th>
-        <th>ここにフォローされている数字</th>
+        <th>followers</th>
+        <th><%= link_to user.followeds.count, followeds_user_path(user) %></th>
       </tr>
     </tbody>
   </table>
 
 <div class='row'>
-  <%= link_to '',edit_user_path(user),class: "btn btn-outline-secondary btn-block fas fa-user-cog edit_user_#{user.id}" %>
+  <% if user != current_user %>
+    <% if user.is_followed_by?(current_user) %>
+      <td><%= link_to "フォロー外す", user_relationships_path(user), method: :delete, class: "btn btn-sm btn-info" %></td>
+    <% else %>
+      <td><%= link_to "フォローする", user_relationships_path(user), method: :post, class: "btn btn-sm btn-success" %></td>
+    <% end %>
+  <% else %>
+    <%= link_to '',edit_user_path(user),class: "btn btn-outline-secondary btn-block fas fa-user-cog edit_user_#{user.id}" %>
+  <% end %>
 </div>
