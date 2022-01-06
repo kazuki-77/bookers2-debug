@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get 'search' => 'searches#search'
   get 'chat/:id' => 'chats#show', as: 'chat' #chats_controllerのshowアクションでチャットを行うので、このように記述する
 
-  resources :chats, only: [:create]
+  resources :chats, only: [:create, :show]
   resources :users,only: [:show,:index,:edit,:update] do
     resource :relationships, only: [:create, :destroy] #userとネストする
     get :followers, on: :member #あるユーザーがフォローしている人全員を表示させるためのルーティング
